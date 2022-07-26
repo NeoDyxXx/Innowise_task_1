@@ -12,7 +12,10 @@ class DBInserter(DBInit):
     def insert_into_rooms_values(self, list_values: dict):
         with self.conn.cursor() as cursor:
             for item in list_values:
-                cursor.execute('''insert into rooms values ({0}, '{1}')'''.format(item['id'], item['name']))
+                try:
+                    cursor.execute('''insert into rooms values ({0}, '{1}')'''.format(item['id'], item['name']))
+                except:
+                    pass
             self.conn.commit()
 
     def insert_into_students_value(self, id: int, name: str, room: int, sex: str, birthday: str):
@@ -22,6 +25,9 @@ class DBInserter(DBInit):
     def insert_into_students_values(self, list_values: dict):
         with self.conn.cursor() as cursor:
             for item in list_values:
-                cursor.execute('''insert into students values ({0}, '{1}', {2}, '{3}', to_date('{4}', 'YYYY-MM-DDTHH24:MI:SS.US'))'''
-                    .format(item['id'], item['name'], item['room'], item['sex'], item['birthday']))
+                try:
+                    cursor.execute('''insert into students values ({0}, '{1}', {2}, '{3}', to_date('{4}', 'YYYY-MM-DDTHH24:MI:SS.US'))'''
+                        .format(item['id'], item['name'], item['room'], item['sex'], item['birthday']))
+                except:
+                    pass
             self.conn.commit()
