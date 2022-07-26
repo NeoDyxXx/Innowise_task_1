@@ -10,6 +10,7 @@ class DBInit:
 
         self.__init_connect()
         self.__init_tables()
+        self.__create_indexes()
 
     def __init_connect(self):
         while True:
@@ -44,4 +45,10 @@ class DBInit:
         with self.conn.cursor() as cursor:
             cursor.execute('drop table if exists students')
             cursor.execute('drop table if exists rooms')
+            self.conn.commit()
+
+    def __create_indexes(self):
+        with self.conn.cursor() as cursor:
+            cursor.execute('create index if not exists students_room on students (room)')
+            cursor.execute('create index if not exists students_sex_text on students (((sex)::text))')
             self.conn.commit()
